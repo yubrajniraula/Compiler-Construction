@@ -261,6 +261,19 @@ ostream& operator<<(ostream& os, simpleExpressionNode& node){
 ostream& operator<<(ostream& os, expressionNode& node){
     os<<"expression( ";
     os<< *(node.pSimpleExp);
+
+    int length = node.restExpOps.size();
+	for (int i = 0; i < length; ++i) {
+		int op = node.restExpOps[i];
+		if (op == TOK_EQUALTO)
+			os << " = ";
+		else if(op == TOK_LESSTHAN)
+			os << " < ";
+        else if(op == TOK_GREATERTHAN)
+			os << " > ";
+        else os << " <> ";
+		// os << *(node.restTerms[i]);
+	}
     os<<" )";
     return os;
 }

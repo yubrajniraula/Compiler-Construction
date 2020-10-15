@@ -141,6 +141,7 @@ public:
     simpleExpressionNode *pSimpleExp = nullptr;
 
     expressionNode(simpleExpressionNode *pSimp);
+    vector<int> restExpOps; // TOK_EQUALTO or TOK_LESSTHAN or TOK_GREATERTHAN or TOK_NOTEQUALTO
     ~expressionNode();
 };
 

@@ -324,6 +324,7 @@ expressionNode* expression(){
     pExpr = new expressionNode(simple_expression());
     if (nextToken == TOK_EQUALTO || nextToken == TOK_LESSTHAN || nextToken == TOK_GREATERTHAN || nextToken == TOK_NOTEQUALTO){
         output_lexeme();
+        pExpr->restExpOps.push_back(nextToken);
         lex();
         pExpr = new expressionNode(simple_expression());
         // vector
