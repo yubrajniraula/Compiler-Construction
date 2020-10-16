@@ -3,5 +3,9 @@ VAR
 PI : REAL;
 HI : REAL;
 BEGIN
-PI := HI
+BEGIN
+PI := HI;
+PI := 3.14;
+WHILE HI <> PI READ (HI)
+END
 END

@@ -81,7 +81,7 @@ public:
 
     compoundNode(statementNode* mystate);
     vector <statementNode*> restStatements; // vector to store the rest of the statements of the compound statement
-    void printTo(ostream &os){}
+    void printTo(ostream &os);
     ~compoundNode();
 };
 
@@ -89,14 +89,14 @@ public:
 class ifNode : public statementNode {
 public:
     expressionNode* expression = nullptr;
-    statementNode* thenElseStatement = nullptr;
-    // statementNode* elseStatement = nullptr;
+    statementNode* thenStatement = nullptr;
+    statementNode* elseStatement = nullptr;
 
     // add methods
-    ifNode(expressionNode* expr);
-    //ifNode(expressionNode* expr, statementNode* thenState);
-    // ifNode(expressionNode* expr, statementNode* thenState, statementNode* elseState);
-    ifNode(statementNode* thenElseState);
+    //ifNode(expressionNode* expr);
+    ifNode(expressionNode* expr, statementNode* thenState);
+    ifNode(expressionNode* expr, statementNode* thenState, statementNode* elseState);
+    //ifNode(statementNode* thenElseState);
     void printTo(ostream &os);
     ~ifNode();
 };
@@ -105,12 +105,13 @@ class whileNode : public statementNode {
 public:
     expressionNode* expression = nullptr;
     statementNode* loopBody = nullptr;
+   //whileNode* pHolder = nullptr;
 
     // add methods  
-    // whileNode(expressionNode* expr, statementNode* loopB);
-    whileNode(expressionNode* expr);
-    whileNode(statementNode* loopB);
-    void printTo(ostream &os){}
+    whileNode(expressionNode* expr, statementNode* loopB);
+    //whileNode(expressionNode* expr);
+    //whileNode(whileNode *expr, statementNode* loopB);
+    void printTo(ostream &os);
     ~whileNode();
 };
 
@@ -139,9 +140,11 @@ public:
 class expressionNode {
 public:
     simpleExpressionNode *pSimpleExp = nullptr;
+    int operand;
 
     expressionNode(simpleExpressionNode *pSimp);
-    vector<int> restExpOps; // TOK_EQUALTO or TOK_LESSTHAN or TOK_GREATERTHAN or TOK_NOTEQUALTO
+    expressionNode(simpleExpressionNode *pSimp, int opCode);
+    // vector<int> restExpOps; // TOK_EQUALTO or TOK_LESSTHAN or TOK_GREATERTHAN or TOK_NOTEQUALTO
     ~expressionNode();
 };
 

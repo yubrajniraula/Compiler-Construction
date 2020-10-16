@@ -222,15 +222,15 @@ ifNode* if_statement(){
     cout << spaces() << "enter <if statement>" << endl;
     output_lexeme();
     lex();
-    pIf = new ifNode(expression());
+    expressionNode *pEx = expression();
     if(nextToken == TOK_THEN){
         output_lexeme();
         lex();
-        pIf = new ifNode(statement());
+        pIf = new ifNode(pEx, statement());
         if(nextToken == TOK_ELSE){ // else may not be required, if no ELSE found, get out of statement
             output_lexeme();
             lex();
-            pIf = new ifNode(statement());
+            pIf = new ifNode(pEx, pIf, statement());
         }
     }
     else throw "52: 'THEN' expected";
@@ -245,8 +245,8 @@ whileNode* while_statement(){
     cout << spaces() << "enter <while statement>" << endl;
     output_lexeme();
     lex();
-    pWhile = new whileNode(expression());
-    pWhile = new whileNode(statement());
+    expressionNode *pEx = expression();
+    pWhile = new whileNode(pEx, statement());
     cout << spaces() << "exit <while statement>" << endl;
     --level;
     return pWhile;
@@ -324,9 +324,10 @@ expressionNode* expression(){
     pExpr = new expressionNode(simple_expression());
     if (nextToken == TOK_EQUALTO || nextToken == TOK_LESSTHAN || nextToken == TOK_GREATERTHAN || nextToken == TOK_NOTEQUALTO){
         output_lexeme();
-        pExpr->restExpOps.push_back(nextToken);
+        int y = nextToken;
+        // pExpr->restExpOps.push_back(nextToken);
         lex();
-        pExpr = new expressionNode(simple_expression());
+        pExpr = new expressionNode(simple_expression(), y);
         // vector
     }
     cout << spaces() << "exit <expression>" << endl;
