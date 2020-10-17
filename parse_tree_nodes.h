@@ -213,16 +213,17 @@ public:
 
     nestedExprNode(expressionNode* ex);
     void printTo(ostream &os);
-    ~nestedExprNode(){}
+    ~nestedExprNode();
 };
 
 class nestedFactorNode : public factorNode {
 public:
+    int op = 0;
     factorNode* pFac = nullptr;
 
-    nestedFactorNode(factorNode* fa);
+    nestedFactorNode(int op, factorNode* fa);
     void printTo(ostream & os);
-    ~nestedFactorNode(){}
+    ~nestedFactorNode();
 };
 
 ostream& operator<<(ostream& os, factorNode& node);

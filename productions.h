@@ -404,16 +404,16 @@ factorNode* factor(){
         else throw "4: ')' expected";
     }
     else if(nextToken == TOK_NOT){
+        int y = nextToken;
         output_lexeme();
         lex();
-        pFact = new nestedFactorNode(factor());
-        // factor();
+        pFact = new nestedFactorNode(y, factor());
     }
     else if(nextToken == TOK_MINUS){
+        int y = nextToken;
         output_lexeme();
         lex();
-        pFact = new nestedFactorNode(factor());
-        // factor();
+        pFact = new nestedFactorNode(y, factor());
     }
     else throw "903: illegal type of factor";
     cout << spaces() << "exit <factor>" << endl;

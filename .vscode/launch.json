@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/parse.exe",
-            "args": ["sample.pas"],
+            "args": ["input2.pas"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

@@ -83,6 +83,10 @@ compoundNode::~compoundNode() {
 	}
 }
 
+// ifNode::ifNode(expressionNode *expr) {
+//     this->expression = expr;
+// }
+
 ifNode::ifNode(expressionNode *expr, statementNode *thenState) {
     this->expression = expr;
     this->thenStatement = thenState;
@@ -209,8 +213,21 @@ nestedExprNode::nestedExprNode(expressionNode* ex) {
 	pExpr = ex;
 }
 
-nestedFactorNode::nestedFactorNode(factorNode* fa) {
+nestedExprNode::~nestedExprNode(){
+    cout<<"I don't know";
+    delete pExpr;
+    pExpr= nullptr;
+}
+
+nestedFactorNode::nestedFactorNode(int op, factorNode* fa) {
+    this->op = op;
 	pFac = fa;
+}
+
+nestedFactorNode::~nestedFactorNode() {
+    cout<<"I know";
+    delete pFac;
+    pFac = nullptr;
 }
 
 ostream& operator<<(ostream& os, factorNode& node){
@@ -306,7 +323,7 @@ ostream& operator<<(ostream& os, programNode& node){
 
 void assignmentNode::printTo(ostream &os) {
     os<<"Assignment " << *name <<" := expression(";
-    os<<*exprs;
+    os<<*exprs<<endl;
 }
 
 void compoundNode::printTo(ostream &os) {
@@ -318,20 +335,27 @@ void compoundNode::printTo(ostream &os) {
 		statementNode* op = restStatements[i];
         os<<*op<<endl;
 	}
-    os <<"End Compound Statement"<< endl;
+    os <<"End Compound Statement"<<endl;
+    os<<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%";
 }
 
 void ifNode::printTo(ostream &os) {
     os<<"If expression( ";
     os<<*expression;
+    os<<"%%%%%%%% True Statement %%%%%%%%"<<endl;
     os<<*thenStatement;
-    if (elseStatement != nullptr) os<<*elseStatement;
+    if (elseStatement != nullptr) {
+        os<<"%%%%%%%% False Statement %%%%%%%%"<<endl;
+        os<<*elseStatement;
+    }
+    os<<endl;
 }
 
 void whileNode::printTo(ostream &os) {
     os<<"While expression( ";
     os<<*expression;
     os << *loopBody;
+    os<<endl;
 }
 
 void readNode::printTo(ostream &os) {
@@ -360,6 +384,9 @@ void nestedExprNode::printTo(ostream &os) {
 }
 
 void nestedFactorNode::printTo(ostream &os) {
+    if(op == TOK_NOT)  os<<"NOT ";
+    else os<<"- ";
+
     os<< *pFac;
 }
 
