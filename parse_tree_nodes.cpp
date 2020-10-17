@@ -63,6 +63,8 @@ assignmentNode::assignmentNode(string name, expressionNode* expr) {
 
 assignmentNode::~assignmentNode() {
     cout << "Deleting an assignmentNode" << endl;
+    delete name;
+    name = nullptr;
 	delete exprs;
 	exprs = nullptr;
 }
@@ -82,10 +84,6 @@ compoundNode::~compoundNode() {
 		restStatements[i] = nullptr;
 	}
 }
-
-// ifNode::ifNode(expressionNode *expr) {
-//     this->expression = expr;
-// }
 
 ifNode::ifNode(expressionNode *expr, statementNode *thenState) {
     this->expression = expr;
@@ -144,19 +142,18 @@ writeNode::~writeNode() {
     name = nullptr;
 }
 
-expressionNode::expressionNode(simpleExpressionNode *pSimp) {
-    this->pSimpleExp = pSimp;
-}
-
-expressionNode::expressionNode(simpleExpressionNode *pSimp, int opCode) {
-    this->pSimpleExp = pSimp;
+expressionNode::expressionNode(simpleExpressionNode *pSimp1, int opCode, simpleExpressionNode *pSimp2) {
+    this->pSimpleExp1 = pSimp1;
     this->operand = opCode;
+    this->pSimpleExp2 = pSimp2;
 }
 
 expressionNode::~expressionNode(){
     cout<<"Deleting an expressionNode"<< endl;
-    delete pSimpleExp;
-    pSimpleExp = nullptr;
+    delete pSimpleExp1;
+    pSimpleExp1 = nullptr;
+    delete pSimpleExp2;
+    pSimpleExp2 = nullptr;
 }
 
 simpleExpressionNode::simpleExpressionNode(termNode *pTerm) {
@@ -275,7 +272,7 @@ ostream& operator<<(ostream& os, simpleExpressionNode& node){
 
 ostream& operator<<(ostream& os, expressionNode& node){
     // os<<"expression( ";
-    os<< *(node.pSimpleExp);
+    os<< *(node.pSimpleExp1);
 
     if (node.operand == TOK_EQUALTO)
 		os << " = ";
@@ -285,7 +282,7 @@ ostream& operator<<(ostream& os, expressionNode& node){
         os << " > ";
     else if(node.operand == TOK_NOTEQUALTO)
         os << " <> ";
-    os<<" )";
+    os<< *(node.pSimpleExp2);
     return os;
 }
 
@@ -296,7 +293,7 @@ ostream& operator<<(ostream& os, compoundNode& node){
     int length = node.restStatements.size();
 	for (int i = 0; i < length; ++i) {
 		statementNode* op = node.restStatements[i];
-        os<<*op<<endl;
+        os<<*op;
 	}
     os <<"End Compound Statement"<< endl;
     return os;
@@ -304,6 +301,7 @@ ostream& operator<<(ostream& os, compoundNode& node){
 
 ostream& operator<<(ostream& os, statementNode& node){
     node.printTo(os);
+    os<<endl;
     // may need if statements
     // vector
     // stuck here. ya dekhi gayena
@@ -333,7 +331,7 @@ void compoundNode::printTo(ostream &os) {
     int length = restStatements.size();
 	for (int i = 0; i < length; ++i) {
 		statementNode* op = restStatements[i];
-        os<<*op<<endl;
+        os<<*op;
 	}
     os <<"End Compound Statement"<<endl;
     os<<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%";
@@ -341,25 +339,23 @@ void compoundNode::printTo(ostream &os) {
 
 void ifNode::printTo(ostream &os) {
     os<<"If expression( ";
-    os<<*expression;
+    os<<*expression<<" )"<<endl;
     os<<"%%%%%%%% True Statement %%%%%%%%"<<endl;
     os<<*thenStatement;
     if (elseStatement != nullptr) {
         os<<"%%%%%%%% False Statement %%%%%%%%"<<endl;
         os<<*elseStatement;
     }
-    os<<endl;
 }
 
 void whileNode::printTo(ostream &os) {
     os<<"While expression( ";
     os<<*expression;
     os << *loopBody;
-    os<<endl;
 }
 
 void readNode::printTo(ostream &os) {
-    os<<"Read Value " << *name<<endl;
+    os<<"Read Value " << *name;
 }
 
 void writeNode::printTo(ostream &os) {

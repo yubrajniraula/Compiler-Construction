@@ -27,6 +27,11 @@ class expressionNode;
 class simpleExpressionNode;
 class termNode;
 class factorNode;
+class intLitNode;
+class floatLitNode;
+class identNode;
+class nestedExprNode;
+class nestedFactorNode;
 
 class programNode{
 public:
@@ -35,15 +40,12 @@ public:
 
     programNode(string id, blockNode* blk);
     ~programNode();
-
-    // you may modify or change these classes....
 };
 
 class blockNode{
 public:
     compoundNode* compoundStatement = nullptr;
 
-    // add methods
     blockNode(compoundNode* cpd);
     ~blockNode();
 };
@@ -54,9 +56,7 @@ public:
 // Remove if not using inheritance to model the statement hierarchy
 class statementNode{
 public:
-    // statementNode *pState;
     virtual void printTo(ostream &os) = 0; // pure virtual method, makes the class Abstract
-    // statementNode(statementNode *pState);
     virtual ~statementNode(){} // labeling the destructor as virtual allows 
 	                          // the subclass destructors to be called
 };
@@ -92,11 +92,8 @@ public:
     statementNode* thenStatement = nullptr;
     statementNode* elseStatement = nullptr;
 
-    // add methods
-    //ifNode(expressionNode* expr);
     ifNode(expressionNode* expr, statementNode* thenState);
     ifNode(expressionNode* expr, statementNode* thenState, statementNode* elseState);
-    //ifNode(statementNode* thenElseState);
     void printTo(ostream &os);
     ~ifNode();
 };
@@ -105,12 +102,8 @@ class whileNode : public statementNode {
 public:
     expressionNode* expression = nullptr;
     statementNode* loopBody = nullptr;
-   //whileNode* pHolder = nullptr;
 
-    // add methods  
     whileNode(expressionNode* expr, statementNode* loopB);
-    //whileNode(expressionNode* expr);
-    //whileNode(whileNode *expr, statementNode* loopB);
     void printTo(ostream &os);
     ~whileNode();
 };
@@ -119,7 +112,6 @@ class readNode : public statementNode {
 public:
     string* name = nullptr;
 
-    // add methods
     readNode(string name);
     void printTo(ostream &os);
     ~readNode(); 
@@ -130,7 +122,6 @@ class writeNode : public statementNode {
 public:
     string *name = nullptr;
     int tokenNumber = 0;
-   // string *strLit = nullptr;
 
     writeNode(string name, int tokenNum);
     void printTo(ostream &os);
@@ -139,12 +130,11 @@ public:
 
 class expressionNode {
 public:
-    simpleExpressionNode *pSimpleExp = nullptr;
+    simpleExpressionNode *pSimpleExp1 = nullptr;
+    simpleExpressionNode *pSimpleExp2 = nullptr;
     int operand;
 
-    expressionNode(simpleExpressionNode *pSimp);
-    expressionNode(simpleExpressionNode *pSimp, int opCode);
-    // vector<int> restExpOps; // TOK_EQUALTO or TOK_LESSTHAN or TOK_GREATERTHAN or TOK_NOTEQUALTO
+    expressionNode(simpleExpressionNode *pSimp1, int opCode, simpleExpressionNode *pSimp2);
     ~expressionNode();
 };
 
@@ -153,8 +143,9 @@ public:
     termNode *pTerm = nullptr;
 
     simpleExpressionNode(termNode *pTerm);
+    // vector to store the operands
     vector<int> restTermOps; // TOK_ADD or TOK_SUB or TOK_OR
-    vector<termNode*> restTerms;
+    vector<termNode*> restTerms; // vector to store other terms
     ~simpleExpressionNode();
 };
 

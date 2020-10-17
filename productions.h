@@ -226,11 +226,12 @@ ifNode* if_statement(){
     if(nextToken == TOK_THEN){
         output_lexeme();
         lex();
-        pIf = new ifNode(pEx, statement());
+        statementNode *pSt = statement();
+        pIf = new ifNode(pEx, pSt);
         if(nextToken == TOK_ELSE){ // else may not be required, if no ELSE found, get out of statement
             output_lexeme();
             lex();
-            pIf = new ifNode(pEx, pIf, statement());
+            pIf = new ifNode(pEx, pSts, statement());
         }
     }
     else throw "52: 'THEN' expected";
@@ -321,13 +322,13 @@ expressionNode* expression(){
     if(nextToken != TOK_INTLIT && nextToken != TOK_FLOATLIT && nextToken != TOK_IDENT && nextToken != TOK_OPENPAREN && nextToken != TOK_NOT && nextToken != TOK_MINUS){
        throw "144: illegal type of expression";
     }
-    pExpr = new expressionNode(simple_expression());
+    simpleExpressionNode *pSimp = simple_expression();
     if (nextToken == TOK_EQUALTO || nextToken == TOK_LESSTHAN || nextToken == TOK_GREATERTHAN || nextToken == TOK_NOTEQUALTO){
         output_lexeme();
         int y = nextToken;
         // pExpr->restExpOps.push_back(nextToken);
         lex();
-        pExpr = new expressionNode(simple_expression(), y);
+        pExpr = new expressionNode(pSimp, y, simple_expression());
         // vector
     }
     cout << spaces() << "exit <expression>" << endl;
