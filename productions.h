@@ -1,9 +1,9 @@
 /******************************************************************* 
 Name: Yubraj Niraula            NetID: yn79
-Course: CSE 4713                Assignment: Part 2
+Course: CSE 4713                Assignment: Part 3
 Programming Environment: MacOS Visual Studio Code C++
-Purpose of File: Recursive descent parser to parse any program inputted
-    and create a parse tree.
+Purpose of File: Recursive descent parser to parse any program inputted. 
+    Now this returns a pointer to each node
 *******************************************************************/
 
 #ifndef PRODUCTIONS_H
@@ -58,20 +58,19 @@ int lex() {
 
 // start checking from here
 programNode *program() { 
-    programNode *pProgram;
+    programNode *pProgram; // create a pointer to programNode
     ++level;
     cout << spaces() << "enter <program>" << endl;
     output_lexeme();
     lex();
-    string x = yytext;
+    string x = yytext; // store the name of the program in x
     // Parse input to see if the input matches the EBNF rule for <program>
     if (nextToken == TOK_IDENT){
         output_lexeme();
         lex();
         if (nextToken == TOK_SEMICOLON){
             output_lexeme();
-            blockNode *blk = block();
-            pProgram = new programNode(x, blk);
+            pProgram = new programNode(x, block()); // pass program name and pointer to block to programNode
 
         }
         else throw "14: ';' expected";
@@ -149,8 +148,7 @@ compoundNode *compound_statement(){
     while (nextToken == TOK_SEMICOLON){
         output_lexeme();
         lex();
-        // pComp = new compoundNode(statement());
-        pComp->restStatements.push_back(statement());
+        pComp->restStatements.push_back(statement()); // if more than one statements in compound statement, push into a vector
     } 
     if (nextToken == TOK_END){
         output_lexeme();
@@ -164,15 +162,10 @@ compoundNode *compound_statement(){
 
 statementNode *statement(){
     statementNode *pState;
-    // assignmentNode *pAsstt;
     ++level;
     cout << spaces() << "enter <statement>" << endl;
     if (nextToken == TOK_IDENT){
-        // cout<<"a"<<endl;
-       // statementNode *pSt;
-        pState = assignment_statement();
-       // pState = new statementNode(assignment_statement());
-        //return pAsstt;
+        pState = assignment_statement(); // just receive the pointer from assignment_statement() and save it in statementNode pointer pState
     }
     else if (nextToken == TOK_BEGIN){
         pState = compound_statement(); 
@@ -202,7 +195,7 @@ assignmentNode* assignment_statement(){
     output_lexeme();
     string y = yytext; // store the name of the identifier in a string y
 
-    // check in the symbol table if the identifier is declared before
+    // check in the symbol table if the identifier is declared before; if not, throw error
     if (!symbolTable.count(yytext)) throw "104: identifier not declared";
     lex();
     if (nextToken == TOK_ASSIGN){
@@ -226,12 +219,14 @@ ifNode* if_statement(){
     if(nextToken == TOK_THEN){
         output_lexeme();
         lex();
-        statementNode *pSt = statement();
-        pIf = new ifNode(pEx, pSt);
+        statementNode *pSt = statement(); // create a separate pointer to store pointer returned from statement()
+        // pass pEx and pSt separately as if may not have else clause
+        // if no else found, return this pointer pIf
+        pIf = new ifNode(pEx, pSt); 
         if(nextToken == TOK_ELSE){ // else may not be required, if no ELSE found, get out of statement
             output_lexeme();
             lex();
-            pIf = new ifNode(pEx, pSt, statement());
+            pIf = new ifNode(pEx, pSt, statement()); // if Else found, return this pointer pIf
         }
     }
     else throw "52: 'THEN' expected";
@@ -246,7 +241,7 @@ whileNode* while_statement(){
     cout << spaces() << "enter <while statement>" << endl;
     output_lexeme();
     lex();
-    expressionNode *pEx = expression();
+    expressionNode *pEx = expression(); // while statement contains expression then statement
     pWhile = new whileNode(pEx, statement());
     cout << spaces() << "exit <while statement>" << endl;
     --level;
@@ -322,15 +317,14 @@ expressionNode* expression(){
     if(nextToken != TOK_INTLIT && nextToken != TOK_FLOATLIT && nextToken != TOK_IDENT && nextToken != TOK_OPENPAREN && nextToken != TOK_NOT && nextToken != TOK_MINUS){
        throw "144: illegal type of expression";
     }
-    simpleExpressionNode *pSimp = simple_expression();
-    pExpr = new expressionNode(pSimp);
+    simpleExpressionNode *pSimp = simple_expression(); // do separately as an expression may only contain a single simple expression
+    pExpr = new expressionNode(pSimp); // if only one expression, return this pointer
     if (nextToken == TOK_EQUALTO || nextToken == TOK_LESSTHAN || nextToken == TOK_GREATERTHAN || nextToken == TOK_NOTEQUALTO){
         output_lexeme();
         int y = nextToken;
-        // pExpr->restExpOps.push_back(nextToken);
         lex();
-        pExpr = new expressionNode(pSimp, y, simple_expression());
-        // vector
+        pExpr = new expressionNode(pSimp, y, simple_expression()); // if two expressions, return this pointer
+        // vector not required as expression can contain at max two simple expressions
     }
     cout << spaces() << "exit <expression>" << endl;
     --level;
@@ -344,12 +338,13 @@ simpleExpressionNode* simple_expression(){
     if(nextToken != TOK_INTLIT && nextToken != TOK_FLOATLIT && nextToken != TOK_IDENT && nextToken != TOK_OPENPAREN && nextToken != TOK_NOT && nextToken != TOK_MINUS){
        throw "901: illegal type of simple expression";
     }
-    pSimple = new simpleExpressionNode(term());
+    pSimple = new simpleExpressionNode(term()); 
     while (nextToken == TOK_PLUS || nextToken == TOK_MINUS || nextToken == TOK_OR){
         output_lexeme();
-        pSimple->restTermOps.push_back(nextToken);
+        // vector required as a simple expression may have more than one terms
+        pSimple->restTermOps.push_back(nextToken); // vector to store those operands, pass their token number
         lex();
-        pSimple->restTerms.push_back(term());
+        pSimple->restTerms.push_back(term()); // vector to store the term itself, pass the whole term
     }
     cout << spaces() << "exit <simple expression>" << endl;
     --level;
@@ -380,7 +375,7 @@ factorNode* factor(){
     ++level;
     cout << spaces() << "enter <factor>" << endl;
     if(nextToken == TOK_INTLIT){
-        pFact = new intLitNode(stoi(yytext));
+        pFact = new intLitNode(stoi(yytext)); // yytext has interger as a string, convert it into integer
         output_lexeme();
         lex();
     }
@@ -398,7 +393,7 @@ factorNode* factor(){
     else if(nextToken == TOK_OPENPAREN){
         output_lexeme();
         lex();
-        pFact = new nestedExprNode(expression()); // what to do???
+        pFact = new nestedExprNode(expression()); 
         if (nextToken == TOK_CLOSEPAREN){
             output_lexeme();
             lex();
@@ -409,13 +404,13 @@ factorNode* factor(){
         int y = nextToken;
         output_lexeme();
         lex();
-        pFact = new nestedFactorNode(y, factor());
+        pFact = new nestedFactorNode(y, factor()); // pass token NOT as well
     }
     else if(nextToken == TOK_MINUS){
         int y = nextToken;
         output_lexeme();
         lex();
-        pFact = new nestedFactorNode(y, factor());
+        pFact = new nestedFactorNode(y, factor()); // pass token MINUS as well
     }
     else throw "903: illegal type of factor";
     cout << spaces() << "exit <factor>" << endl;
@@ -424,11 +419,6 @@ factorNode* factor(){
 }
 
 
-
-
-
-
-//*****************************************************************************
 
 bool first_of_program(void) {
     return nextToken == TOK_PROGRAM;

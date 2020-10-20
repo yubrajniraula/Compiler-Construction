@@ -198,7 +198,7 @@ Write Value F
 Write String ' CELSIUS= '
 Write Value C
 End Compound Statement
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 End Compound Statement
 
 

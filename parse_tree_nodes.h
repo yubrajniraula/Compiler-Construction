@@ -1,6 +1,8 @@
 /******************************************************************* 
-Your file header information....
-
+Name: Yubraj Niraula            NetID: yn79
+Course: CSE 4713                Assignment: Part 3
+Programming Environment: MacOS Visual Studio Code C++
+Purpose of File: Header file to parse_tree_cpp
 *******************************************************************/
 
 #ifndef PARSE_TREE_NODES_H
@@ -134,7 +136,9 @@ public:
     simpleExpressionNode *pSimpleExp2 = nullptr;
     int operand;
 
+    // an expression may contain either a single simple expression
     expressionNode(simpleExpressionNode *pSimp1);
+    // or a simple expression followed by an operand and another simple expression
     expressionNode(simpleExpressionNode *pSimp1, int opCode, simpleExpressionNode *pSimp2);
     ~expressionNode();
 };
@@ -222,7 +226,6 @@ ostream& operator<<(ostream& os, factorNode& node);
 ostream& operator<<(ostream& os, termNode& node);
 ostream& operator<<(ostream& os, simpleExpressionNode& node);
 ostream& operator<<(ostream& os, expressionNode& node);
-ostream& operator<<(ostream& os, compoundNode& node);
 ostream& operator<<(ostream& os, statementNode& node);
 ostream& operator<<(ostream& os, blockNode& node);
 ostream& operator<<(ostream& os, programNode& node);

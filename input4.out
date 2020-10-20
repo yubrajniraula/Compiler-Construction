@@ -187,8 +187,7 @@ Assignment MULTIPLE := expression( simple_expression( term( factor( COUNT ) * fa
 Write Value MULTIPLE
 Assignment COUNT := expression( simple_expression( term( factor( COUNT ) ) + term( factor( 1 ) ) ) )
 End Compound Statement
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
 End Compound Statement
 
 
