@@ -204,7 +204,8 @@ WIDTH
 *** In order traversal of parse tree ***
 Program Name: LAB03
 Begin Compound Statement
-Assignment PI := expression( simple_expression( term( factor( 3.14159 ) ) ) )Read Value HEIGHT
+Assignment PI := expression( simple_expression( term( factor( 3.14159 ) ) ) )
+Read Value HEIGHT
 Read Value WIDTH
 Assignment RAREA := expression( simple_expression( term( factor( HEIGHT ) * factor( WIDTH ) ) ) )
 Assignment SAREA := expression( simple_expression( term( factor( PI ) * factor( WIDTH ) * factor( WIDTH ) / factor( 8 ) ) ) )

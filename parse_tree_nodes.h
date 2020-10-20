@@ -134,6 +134,7 @@ public:
     simpleExpressionNode *pSimpleExp2 = nullptr;
     int operand;
 
+    expressionNode(simpleExpressionNode *pSimp1);
     expressionNode(simpleExpressionNode *pSimp1, int opCode, simpleExpressionNode *pSimp2);
     ~expressionNode();
 };

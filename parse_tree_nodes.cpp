@@ -97,7 +97,7 @@ ifNode::ifNode(expressionNode *expr, statementNode *thenState, statementNode *el
 }
 
 ifNode::~ifNode(){
-    cout << "Deleting an ifNode: " << endl;
+    cout << "Deleting an ifNode" << endl;
 	delete expression;
 	expression = nullptr;
     delete thenStatement;
@@ -115,6 +115,8 @@ whileNode::whileNode(expressionNode* expr, statementNode *loopB) {
 }
 
 whileNode::~whileNode(){
+        cout << "Deleting a whileNode" << endl;
+
     delete expression;
     expression = nullptr;
     delete loopBody;
@@ -142,6 +144,10 @@ writeNode::~writeNode() {
     name = nullptr;
 }
 
+expressionNode::expressionNode(simpleExpressionNode *pSimp1) {
+    this->pSimpleExp1 = pSimp1;
+}
+
 expressionNode::expressionNode(simpleExpressionNode *pSimp1, int opCode, simpleExpressionNode *pSimp2) {
     this->pSimpleExp1 = pSimp1;
     this->operand = opCode;
@@ -167,9 +173,12 @@ simpleExpressionNode::~simpleExpressionNode(){
 
     int length = restTermOps.size();
     for (int i = 0; i < length; ++i) {
+        // cout<<"Deleting a termNode"<< endl;
         delete restTerms[i];
+
         restTerms[i] = nullptr;
-    }
+    }           
+
 }
 
 termNode::termNode(factorNode *pFact) {
@@ -183,6 +192,8 @@ termNode::~termNode() {
 
     int length = restFactorOps.size();
     for (int i = 0; i < length; ++i) {
+                //cout<< "Deleting a factorNode"<<endl;
+
         delete restFactors[i];
         restFactors[i] = nullptr;
     }
@@ -211,7 +222,8 @@ nestedExprNode::nestedExprNode(expressionNode* ex) {
 }
 
 nestedExprNode::~nestedExprNode(){
-    cout<<"I don't know";
+        cout<<"Deleting a factorNode"<< endl;
+
     delete pExpr;
     pExpr= nullptr;
 }
@@ -222,13 +234,14 @@ nestedFactorNode::nestedFactorNode(int op, factorNode* fa) {
 }
 
 nestedFactorNode::~nestedFactorNode() {
-    cout<<"I know";
+        cout<<"Deleting a factorNode"<< endl;
+
     delete pFac;
     pFac = nullptr;
 }
 
 ostream& operator<<(ostream& os, factorNode& node){
-    os<<"factor( ";
+    //os<<"factor( ";
     node.printTo(os);  
     os<<" )";
     return os;
@@ -237,7 +250,6 @@ ostream& operator<<(ostream& os, factorNode& node){
 ostream& operator<<(ostream& os, termNode& node){
     os<<"term( ";
     os<< *(node.pFactor);
-    os<<" )";
 
     int length = node.restFactorOps.size();
 	for (int i = 0; i < length; ++i) {
@@ -248,14 +260,16 @@ ostream& operator<<(ostream& os, termNode& node){
 			os << " / ";
         else os << " AND ";
 	os << *(node.restFactors[i]);
+       // os<<" )";
+
 	}
+    os <<" )";
     return os;
 }
 
 ostream& operator<<(ostream& os, simpleExpressionNode& node){
     os<<"simple_expression( ";
     os<< *(node.pTerm);
-    os<<" )";
 
     int length = node.restTermOps.size();
 	for (int i = 0; i < length; ++i) {
@@ -266,7 +280,10 @@ ostream& operator<<(ostream& os, simpleExpressionNode& node){
 			os << " - ";
         else os << " 0R ";
 		os << *(node.restTerms[i]);
+              //  os<<" )";
+
 	}
+    os<<" )";
     return os;
 }
 
@@ -282,7 +299,8 @@ ostream& operator<<(ostream& os, expressionNode& node){
         os << " > ";
     else if(node.operand == TOK_NOTEQUALTO)
         os << " <> ";
-    os<< *(node.pSimpleExp2);
+    
+    if (node.pSimpleExp2 != nullptr) os<< *(node.pSimpleExp2);
     return os;
 }
 
@@ -301,7 +319,7 @@ ostream& operator<<(ostream& os, compoundNode& node){
 
 ostream& operator<<(ostream& os, statementNode& node){
     node.printTo(os);
-    os<<endl;
+   // os<<endl;
     // may need if statements
     // vector
     // stuck here. ya dekhi gayena
@@ -320,8 +338,8 @@ ostream& operator<<(ostream& os, programNode& node){
 }
 
 void assignmentNode::printTo(ostream &os) {
-    os<<"Assignment " << *name <<" := expression(";
-    os<<*exprs<<endl;
+    os<<"Assignment " << *name <<" := expression( ";
+    os<<*exprs <<" )"<<endl;
 }
 
 void compoundNode::printTo(ostream &os) {
@@ -334,7 +352,7 @@ void compoundNode::printTo(ostream &os) {
         os<<*op;
 	}
     os <<"End Compound Statement"<<endl;
-    os<<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%";
+    os<<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<endl;
 }
 
 void ifNode::printTo(ostream &os) {
@@ -346,40 +364,44 @@ void ifNode::printTo(ostream &os) {
         os<<"%%%%%%%% False Statement %%%%%%%%"<<endl;
         os<<*elseStatement;
     }
+    // os<<" )";
 }
 
 void whileNode::printTo(ostream &os) {
     os<<"While expression( ";
-    os<<*expression;
-    os << *loopBody;
+    os<<*expression << " )"<<endl;
+    os <<"%%%%%%%% Loop Body %%%%%%%%"<<endl;
+    os<< *loopBody<< endl;
 }
 
 void readNode::printTo(ostream &os) {
-    os<<"Read Value " << *name;
+    os<<"Read Value " << *name <<endl;
 }
 
 void writeNode::printTo(ostream &os) {
-    if (tokenNumber == TOK_STRINGLIT) os<<"Write String " << *name;
-    else os << "Write Value "<< *name; // else it is a symbol/identifier
+    if (tokenNumber == TOK_STRINGLIT) os<<"Write String " << *name <<endl;
+    else os << "Write Value "<< *name <<endl; // else it is a symbol/identifier
 }
 
 void intLitNode::printTo(ostream &os) {
-    os<< int_literal;
+    os<< "factor( " << int_literal;
 }
 
 void floatLitNode::printTo(ostream &os) {
-    os<< float_literal;
+    os<<"factor( "<< float_literal;
 }
 
 void identNode::printTo(ostream &os) {
-    os<< *id;
+    os<< "factor( "<<*id;
 }
 
 void nestedExprNode::printTo(ostream &os) {
-    os<< *pExpr;
+    os<< "nested_expression( expression( "<<*pExpr;
+    os<<" )";
 }
 
 void nestedFactorNode::printTo(ostream &os) {
+    os<<"factor( ";
     if(op == TOK_NOT)  os<<"NOT ";
     else os<<"- ";
 

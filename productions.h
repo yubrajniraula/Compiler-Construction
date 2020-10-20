@@ -231,7 +231,7 @@ ifNode* if_statement(){
         if(nextToken == TOK_ELSE){ // else may not be required, if no ELSE found, get out of statement
             output_lexeme();
             lex();
-            pIf = new ifNode(pEx, pSts, statement());
+            pIf = new ifNode(pEx, pSt, statement());
         }
     }
     else throw "52: 'THEN' expected";
@@ -323,6 +323,7 @@ expressionNode* expression(){
        throw "144: illegal type of expression";
     }
     simpleExpressionNode *pSimp = simple_expression();
+    pExpr = new expressionNode(pSimp);
     if (nextToken == TOK_EQUALTO || nextToken == TOK_LESSTHAN || nextToken == TOK_GREATERTHAN || nextToken == TOK_NOTEQUALTO){
         output_lexeme();
         int y = nextToken;
