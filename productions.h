@@ -12,7 +12,7 @@ Purpose of File: Recursive descent parser to parse any program inputted.
 
 extern int nextToken;
 extern int level;
-extern set<string> symbolTable;
+extern map<string, int> symbolTable;
 
 extern "C"
 {
@@ -95,8 +95,8 @@ blockNode* block(){
         do{ // check for identifier at least once and keep looping unless begin_check is false
             if (nextToken == TOK_IDENT){
                 output_lexeme();
-                if (symbolTable.count(yytext)) throw "101: identifier declared twice";
-                symbolTable.insert(yytext); // update the symbol table
+                if (symbolTable.count(yytext)) throw "101: identifier declared twice"; //might have to use find instead of count
+                symbolTable.insert(make_pair(yytext, 0)); // update the symbol table
                 lex();
                 if(nextToken == TOK_COLON){
                     output_lexeme();
@@ -107,7 +107,7 @@ blockNode* block(){
                         if(nextToken == TOK_SEMICOLON){
                             output_lexeme();
                             lex();
-                            cout<<'\n';
+                            cout<<'\n'; // check why this is here???????????????????????????????
                             if(nextToken == TOK_IDENT){
                                 begin_check = false;
                             }
@@ -201,7 +201,10 @@ assignmentNode* assignment_statement(){
     if (nextToken == TOK_ASSIGN){
         output_lexeme();
         lex();
-        pAss = new assignmentNode(y, expression());
+        expressionNode *exp = expression();
+        // cout<<"********"<<exp->pSimpleExp1<<endl;
+        pAss = new assignmentNode(y, exp);
+        //symbolTable[y] = exp->interpret();
     }
     else throw "51: ':=' expected";
     cout << spaces() << "exit <assignment>" << endl;

@@ -41,6 +41,7 @@ public:
     blockNode* block = nullptr;
 
     programNode(string id, blockNode* blk);
+    int interpret() {}
     ~programNode();
 };
 
@@ -140,6 +141,8 @@ public:
     expressionNode(simpleExpressionNode *pSimp1);
     // or a simple expression followed by an operand and another simple expression
     expressionNode(simpleExpressionNode *pSimp1, int opCode, simpleExpressionNode *pSimp2);
+    // interpret method to interpret expression
+    int interpret();
     ~expressionNode();
 };
 
@@ -151,6 +154,7 @@ public:
     // vector to store the operands
     vector<int> restTermOps; // TOK_ADD or TOK_SUB or TOK_OR
     vector<termNode*> restTerms; // vector to store other terms
+    int interpret();
     ~simpleExpressionNode();
 };
 
@@ -161,6 +165,7 @@ public:
     termNode(factorNode *pFact);
     vector<int> restFactorOps; // TOK_MULTIPLY or TOK_DIVIDE or TOK_AND
     vector<factorNode*> restFactors;
+    int interpret();
     ~termNode();
 };
 
@@ -168,6 +173,7 @@ public:
 class factorNode {
 public:
     virtual void printTo(ostream &os) = 0; // pure virtual method, makes the class Abstract
+    virtual int interpret() = 0; // pure virtual method interpret
     virtual ~factorNode(){} // labeling the destructor as virtual allows 
 	                       // the subclass destructors to be called
 };
@@ -177,6 +183,7 @@ public:
     int int_literal = 0;
 
     intLitNode(int value);
+    int interpret();
     ~intLitNode(){
         cout<<"Deleting a factorNode"<< endl; // nothing else to do as it is not a pointer
     }
@@ -188,6 +195,7 @@ public:
     float float_literal = 0.0;
 
     floatLitNode(float value);
+    int interpret();
     ~floatLitNode(){
         cout<<"Deleting a factorNode"<< endl;
     }
@@ -199,6 +207,7 @@ public:
     string* id = nullptr;
 
     identNode(string name);
+    int interpret();
     ~identNode();
     void printTo(ostream &os);
 };
@@ -209,6 +218,7 @@ public:
 
     nestedExprNode(expressionNode* ex);
     void printTo(ostream &os);
+    int interpret();
     ~nestedExprNode();
 };
 
@@ -219,6 +229,7 @@ public:
 
     nestedFactorNode(int op, factorNode* fa);
     void printTo(ostream & os);
+    int interpret();
     ~nestedFactorNode();
 };
 

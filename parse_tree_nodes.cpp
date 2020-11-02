@@ -222,6 +222,33 @@ expressionNode::expressionNode(simpleExpressionNode *pSimp1, int opCode, simpleE
     this->pSimpleExp2 = pSimp2;
 }
 
+int expressionNode::interpret() {
+    //int length = rest.size();
+    int result = 0;
+    // for (int i = 0; i < length; ++i) {
+    //     if (restFactorOps[i] == TOK_MULTIPLY) result = restFactors[i]->interpret() * restFactors[i+1]->interpret();
+    //     if (restFactorOps[i] == TOK_DIVIDE) result = restFactors[i]->interpret() / restFactors[i+1]->interpret();
+    //     if (restFactorOps[i] == TOK_AND) result = restFactors[i]->interpret() && restFactors[i+1]->interpret();
+    // }
+    if (operand == TOK_EQUALTO) {
+        if (pSimpleExp1->interpret() == pSimpleExp2->interpret())
+            result = 1; // if not equal, go outside the condition and return the default result = 0
+    }
+    else if (operand == TOK_LESSTHAN) {
+        if (pSimpleExp1->interpret() < pSimpleExp2->interpret())
+            result = 1;
+    }
+    else if (operand == TOK_GREATERTHAN) {
+        if (pSimpleExp1->interpret() > pSimpleExp2->interpret())
+            result = 1;
+    }
+    else {
+        if (pSimpleExp1->interpret() != pSimpleExp2->interpret())
+            result = 1;
+    }
+    return result;
+}
+
 expressionNode::~expressionNode(){
     cout<<"Deleting an expressionNode"<< endl;
     delete pSimpleExp1;
@@ -250,6 +277,17 @@ ostream& operator<<(ostream& os, expressionNode& node){
 
 simpleExpressionNode::simpleExpressionNode(termNode *pTerm) {
     this->pTerm = pTerm;
+}
+
+int simpleExpressionNode::interpret() {
+    int length = restTermOps.size();
+    int result = 0;
+    for (int i = 0; i < length; ++i) {
+        if (restTermOps[i] == TOK_PLUS) result = restTerms[i]->interpret() + restTerms[i+1]->interpret();
+        if (restTermOps[i] == TOK_MINUS) result = restTerms[i]->interpret() - restTerms[i+1]->interpret();
+        if (restTermOps[i] == TOK_OR) result = restTerms[i]->interpret() || restTerms[i+1]->interpret();
+    }
+    return result;
 }
 
 simpleExpressionNode::~simpleExpressionNode(){
@@ -284,6 +322,17 @@ ostream& operator<<(ostream& os, simpleExpressionNode& node){
 
 termNode::termNode(factorNode *pFact) {
     this->pFactor = pFact;
+}
+
+int termNode::interpret() {
+    int length = restFactorOps.size();
+    int result = 0;
+    for (int i = 0; i < length; ++i) {
+        if (restFactorOps[i] == TOK_MULTIPLY) result = restFactors[i]->interpret() * restFactors[i+1]->interpret();
+        if (restFactorOps[i] == TOK_DIVIDE) result = restFactors[i]->interpret() / restFactors[i+1]->interpret();
+        if (restFactorOps[i] == TOK_AND) result = restFactors[i]->interpret() && restFactors[i+1]->interpret();
+    }
+    return result;
 }
 
 termNode::~termNode() {
@@ -328,6 +377,10 @@ intLitNode::intLitNode(int value) {
     int_literal = value;
 }
 
+int intLitNode::interpret(){
+    return int_literal;
+}
+
 void intLitNode::printTo(ostream &os) {
     os<< "factor( " << int_literal;
 }
@@ -336,12 +389,20 @@ floatLitNode::floatLitNode(float value) {
     float_literal = value;
 }
 
+int floatLitNode::interpret(){
+    return float_literal;
+}
+
 void floatLitNode::printTo(ostream &os) {
     os<<"factor( "<< float_literal;
 }
 
 identNode::identNode(string name) {
     id = new string(name);
+}
+
+int identNode::interpret(){
+    // return ; // lookup current value of identifier in symbol table and return it
 }
 
 identNode::~identNode(){
@@ -356,6 +417,10 @@ void identNode::printTo(ostream &os) {
 
 nestedExprNode::nestedExprNode(expressionNode* ex) {
 	pExpr = ex;
+}
+
+int nestedExprNode::interpret(){
+    return pExpr->interpret(); // should be correct i guess
 }
 
 nestedExprNode::~nestedExprNode(){
@@ -373,6 +438,10 @@ void nestedExprNode::printTo(ostream &os) {
 nestedFactorNode::nestedFactorNode(int op, factorNode* fa) {
     this->op = op;
 	pFac = fa;
+}
+
+int nestedFactorNode::interpret(){
+    return pFac->interpret(); // lookup current value of identifier in symbol table and return it
 }
 
 nestedFactorNode::~nestedFactorNode() {

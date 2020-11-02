@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
-#include <set>
+#include <map>
 
 using namespace std;
 
@@ -33,7 +33,9 @@ int level = -1; // current indentation level
 // Feel free to use a different data structure for the symbol table (list of
 // variables declared in the program) but you will have to adjust the code in
 // main() to print out the symbol table after a successful parse
-set<string> symbolTable; // Symbol Table
+
+// update symbol table to store identifier with its value
+map<string, int> symbolTable; // Symbol Table
 
 
 //*****************************************************************************
@@ -86,15 +88,18 @@ int main(int argc, char* argv[]) {
 
     // Print out the symbol table
     cout << endl << "User Defined Symbols:" << endl;
-    set<string>::iterator it;
+    map<string, int>::iterator it;
     for (it = symbolTable.begin(); it != symbolTable.end(); ++it) {
-        cout << *it << endl;
+        cout << it->first << endl;
     }
 
     cout << endl << endl << "*** In order traversal of parse tree ***" << endl;
     cout << *root << endl;
 
-    cout << "*** Delete the parse tree ***" << endl;
+    cout << endl << endl << "*** Interpreting the TIPS program ***" << endl;
+    cout << root->interpret() << endl;
+
+    cout << endl<< endl<<"*** Delete the parse tree ***" << endl;
     delete root;
 
     return 0;
