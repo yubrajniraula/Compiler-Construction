@@ -23,8 +23,8 @@ CXXFLAGS = -g
 CCFLAGS  = -g
 
 
-parse.exe: lex.yy.o parse_tree_nodes.o driver.o
-	$(CXX) $(CXXFLAGS) -o parse.exe lex.yy.o parse_tree_nodes.o driver.o
+tips.exe: lex.yy.o parse_tree_nodes.o driver.o
+	$(CXX) $(CXXFLAGS) -o tips.exe lex.yy.o parse_tree_nodes.o driver.o
 
 #     -o flag specifies the output file
 #
@@ -46,5 +46,5 @@ lex.yy.c: rules.l lexer.h
 	$(LEX) -o lex.yy.c rules.l
 
 clean: 
-	$(RM) *.o lex.yy.c parse.exe
+	$(RM) *.o lex.yy.c tips.exe
 

@@ -96,7 +96,7 @@ blockNode* block(){
             if (nextToken == TOK_IDENT){
                 output_lexeme();
                 if (symbolTable.count(yytext)) throw "101: identifier declared twice"; //might have to use find instead of count
-                symbolTable.insert(make_pair(yytext, 0)); // update the symbol table
+                symbolTable.insert(pair<string, int>(yytext, 0)); // update the symbol table
                 lex();
                 if(nextToken == TOK_COLON){
                     output_lexeme();

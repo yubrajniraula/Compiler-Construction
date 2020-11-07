@@ -45,6 +45,10 @@ programNode::programNode(string id, blockNode *blk){
     block = blk;
 }
 
+int programNode::interpret() {
+    return block->interpret();
+}
+
 programNode::~programNode(){
     cout << "Deleting a programNode" << endl;
     delete name;
@@ -63,6 +67,10 @@ blockNode::blockNode(compoundNode *cpd){
     this->compoundStatement = cpd;
 }
 
+int blockNode::interpret() {
+    return compoundStatement->interpret();
+}
+
 blockNode::~blockNode() {
 	cout << "Deleting a blockNode" << endl;
 	delete compoundStatement;
@@ -76,6 +84,15 @@ ostream& operator<<(ostream& os, blockNode& node){
 
 compoundNode::compoundNode(statementNode *stat) {
     this->mystate = stat;
+}
+
+int compoundNode::interpret() {
+    // int length = restStatements.size();
+    mystate->interpret();
+	for (statementNode *mystate : restStatements) {
+        mystate->interpret();
+    }
+    return 0;
 }
 
 compoundNode::~compoundNode() {
@@ -112,6 +129,11 @@ assignmentNode::assignmentNode(string name, expressionNode* expr) {
     this->exprs = expr;
 }
 
+int assignmentNode::interpret() {
+    symbolTable[*name] = exprs->interpret();
+    return symbolTable[*name];
+}
+
 assignmentNode::~assignmentNode() {
     cout << "Deleting an assignmentNode" << endl;
     delete name;
@@ -134,6 +156,13 @@ ifNode::ifNode(expressionNode *expr, statementNode *thenState, statementNode *el
     this->expression = expr;
     this->thenStatement = thenState;
     this->elseStatement = elseState;
+}
+
+int ifNode::interpret() {
+    int result = expression->interpret();
+    if (result != 0) return thenStatement->interpret();
+    if (elseStatement != nullptr) return elseStatement->interpret(); 
+    return 0; // if none, return 0
 }
 
 ifNode::~ifNode(){
@@ -166,6 +195,13 @@ whileNode::whileNode(expressionNode* expr, statementNode *loopB) {
     this->loopBody = loopB;
 }
 
+int whileNode::interpret() {
+    while(expression->interpret()){
+        loopBody->interpret();
+    }
+    return 0; 
+}
+
 whileNode::~whileNode(){
     cout << "Deleting a whileNode" << endl;
     delete expression;
@@ -186,6 +222,15 @@ readNode::readNode(string name) {
     this->name = new string(name);
 }
 
+int readNode::interpret() {
+    int input_num;
+    // float realResult;
+    scanf("%d", &input_num);
+    // cin >> input_num; // take the input value from user
+    symbolTable[*name] = input_num;// might also have to place this value in symbol table
+    return input_num; 
+}
+
 readNode::~readNode() {
     cout<< "Deleting a readNode"<<endl;
     delete name;
@@ -199,6 +244,18 @@ void readNode::printTo(ostream &os) {
 writeNode::writeNode(string name, int tokenNum) {
     this->name = new string(name);
     this->tokenNumber = tokenNum;
+}
+
+int writeNode::interpret() {
+    if (this->tokenNumber == TOK_IDENT){
+        cout<< symbolTable.at(*name)<<endl;
+    }
+    else {
+        cout<< *name; 
+    }
+    return 0;
+    // if identifier, look at symbol table and return value
+    // if string, output it to console
 }
 
 writeNode::~writeNode() {
@@ -225,25 +282,26 @@ expressionNode::expressionNode(simpleExpressionNode *pSimp1, int opCode, simpleE
 int expressionNode::interpret() {
     //int length = rest.size();
     int result = 0;
+    result =     pSimpleExp1->interpret();
     // for (int i = 0; i < length; ++i) {
     //     if (restFactorOps[i] == TOK_MULTIPLY) result = restFactors[i]->interpret() * restFactors[i+1]->interpret();
     //     if (restFactorOps[i] == TOK_DIVIDE) result = restFactors[i]->interpret() / restFactors[i+1]->interpret();
     //     if (restFactorOps[i] == TOK_AND) result = restFactors[i]->interpret() && restFactors[i+1]->interpret();
     // }
     if (operand == TOK_EQUALTO) {
-        if (pSimpleExp1->interpret() == pSimpleExp2->interpret())
+        if (result == pSimpleExp2->interpret())
             result = 1; // if not equal, go outside the condition and return the default result = 0
     }
     else if (operand == TOK_LESSTHAN) {
-        if (pSimpleExp1->interpret() < pSimpleExp2->interpret())
+        if (result < pSimpleExp2->interpret())
             result = 1;
     }
     else if (operand == TOK_GREATERTHAN) {
-        if (pSimpleExp1->interpret() > pSimpleExp2->interpret())
+        if (result > pSimpleExp2->interpret())
             result = 1;
     }
-    else {
-        if (pSimpleExp1->interpret() != pSimpleExp2->interpret())
+    else if (operand == TOK_NOTEQUALTO) {
+        if (result != pSimpleExp2->interpret())
             result = 1;
     }
     return result;
@@ -280,18 +338,21 @@ simpleExpressionNode::simpleExpressionNode(termNode *pTerm) {
 }
 
 int simpleExpressionNode::interpret() {
-    int length = restTermOps.size();
     int result = 0;
+    result = pTerm->interpret();
+    int length = restTermOps.size();
+    // cout<<length;
     for (int i = 0; i < length; ++i) {
-        if (restTermOps[i] == TOK_PLUS) result = restTerms[i]->interpret() + restTerms[i+1]->interpret();
-        if (restTermOps[i] == TOK_MINUS) result = restTerms[i]->interpret() - restTerms[i+1]->interpret();
-        if (restTermOps[i] == TOK_OR) result = restTerms[i]->interpret() || restTerms[i+1]->interpret();
+        if (restTermOps[i] == TOK_PLUS) result = i;
+        if (restTermOps[i] == TOK_MINUS) result -= restTerms[i]->interpret();
+        if (restTermOps[i] == TOK_OR) result = result || restTerms[i]->interpret();
     }
     return result;
 }
 
 simpleExpressionNode::~simpleExpressionNode(){
     cout<<"Deleting a simpleExpressionNode"<< endl;
+    // cout<<restTermOps.size();
     delete pTerm;
     pTerm = nullptr;
 
@@ -325,12 +386,13 @@ termNode::termNode(factorNode *pFact) {
 }
 
 int termNode::interpret() {
-    int length = restFactorOps.size();
     int result = 0;
+    result = pFactor->interpret();
+    int length = restFactorOps.size();
     for (int i = 0; i < length; ++i) {
-        if (restFactorOps[i] == TOK_MULTIPLY) result = restFactors[i]->interpret() * restFactors[i+1]->interpret();
-        if (restFactorOps[i] == TOK_DIVIDE) result = restFactors[i]->interpret() / restFactors[i+1]->interpret();
-        if (restFactorOps[i] == TOK_AND) result = restFactors[i]->interpret() && restFactors[i+1]->interpret();
+        if (restFactorOps[i] == TOK_MULTIPLY) result *= restFactors[i]->interpret();
+        if (restFactorOps[i] == TOK_DIVIDE) result /= restFactors[i]->interpret();
+        if (restFactorOps[i] == TOK_AND) result = result && restFactors[i+1]->interpret();
     }
     return result;
 }
@@ -402,7 +464,7 @@ identNode::identNode(string name) {
 }
 
 int identNode::interpret(){
-    // return ; // lookup current value of identifier in symbol table and return it
+    return symbolTable.at(*id); // lookup current value of identifier in symbol table and return it
 }
 
 identNode::~identNode(){

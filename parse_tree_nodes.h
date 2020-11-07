@@ -11,9 +11,12 @@ Purpose of File: Header file to parse_tree_cpp
 #include <iostream>
 #include <vector>
 #include <string>
+#include <map>
 #include "lexer.h"
 
 using namespace std;
+
+extern map<string, int> symbolTable;
 
 // forward declarations of classes
 class programNode;
@@ -41,7 +44,7 @@ public:
     blockNode* block = nullptr;
 
     programNode(string id, blockNode* blk);
-    int interpret() {}
+    int interpret();
     ~programNode();
 };
 
@@ -50,6 +53,7 @@ public:
     compoundNode* compoundStatement = nullptr;
 
     blockNode(compoundNode* cpd);
+    int interpret();
     ~blockNode();
 };
 
@@ -60,6 +64,7 @@ public:
 class statementNode{
 public:
     virtual void printTo(ostream &os) = 0; // pure virtual method, makes the class Abstract
+    virtual int interpret() = 0;
     virtual ~statementNode(){} // labeling the destructor as virtual allows 
 	                          // the subclass destructors to be called
 };
@@ -73,6 +78,7 @@ public:
     expressionNode* exprs = nullptr;
 
     assignmentNode(string name, expressionNode* expr);
+    int interpret();
     void printTo(ostream &os);
     ~assignmentNode();
 };
@@ -84,6 +90,7 @@ public:
 
     compoundNode(statementNode* mystate);
     vector <statementNode*> restStatements; // vector to store the rest of the statements of the compound statement
+    int interpret();
     void printTo(ostream &os);
     ~compoundNode();
 };
@@ -97,6 +104,7 @@ public:
 
     ifNode(expressionNode* expr, statementNode* thenState);
     ifNode(expressionNode* expr, statementNode* thenState, statementNode* elseState);
+    int interpret();
     void printTo(ostream &os);
     ~ifNode();
 };
@@ -107,6 +115,7 @@ public:
     statementNode* loopBody = nullptr;
 
     whileNode(expressionNode* expr, statementNode* loopB);
+    int interpret();
     void printTo(ostream &os);
     ~whileNode();
 };
@@ -116,6 +125,7 @@ public:
     string* name = nullptr;
 
     readNode(string name);
+    int interpret();
     void printTo(ostream &os);
     ~readNode(); 
 };
@@ -127,6 +137,7 @@ public:
     int tokenNumber = 0;
 
     writeNode(string name, int tokenNum);
+    int interpret();
     void printTo(ostream &os);
     ~writeNode();
 };
