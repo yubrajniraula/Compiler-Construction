@@ -87,10 +87,12 @@ compoundNode::compoundNode(statementNode *stat) {
 }
 
 int compoundNode::interpret() {
-    // int length = restStatements.size();
     mystate->interpret();
-	for (statementNode *mystate : restStatements) {
-        mystate->interpret();
+    int length = restStatements.size();
+    //cout<< "****" << length;
+    //mystate->interpret();
+	for (int i = 0; i < length; i++) {
+        restStatements[i]->interpret();
     }
     return 0;
 }
@@ -198,6 +200,7 @@ whileNode::whileNode(expressionNode* expr, statementNode *loopB) {
 int whileNode::interpret() {
     while(expression->interpret()){
         loopBody->interpret();
+        //return 0;
     }
     return 0; 
 }
@@ -223,10 +226,10 @@ readNode::readNode(string name) {
 }
 
 int readNode::interpret() {
-    int input_num;
+    int input_num ;
     // float realResult;
-    scanf("%d", &input_num);
-    // cin >> input_num; // take the input value from user
+   // scanf("%d", &input_num);
+    cin >> input_num; // take the input value from user
     symbolTable[*name] = input_num;// might also have to place this value in symbol table
     return input_num; 
 }
@@ -281,7 +284,7 @@ expressionNode::expressionNode(simpleExpressionNode *pSimp1, int opCode, simpleE
 
 int expressionNode::interpret() {
     //int length = rest.size();
-    int result = 0;
+    int result;
     result =     pSimpleExp1->interpret();
     // for (int i = 0; i < length; ++i) {
     //     if (restFactorOps[i] == TOK_MULTIPLY) result = restFactors[i]->interpret() * restFactors[i+1]->interpret();
@@ -291,18 +294,27 @@ int expressionNode::interpret() {
     if (operand == TOK_EQUALTO) {
         if (result == pSimpleExp2->interpret())
             result = 1; // if not equal, go outside the condition and return the default result = 0
+        else 
+            result = 0;
     }
     else if (operand == TOK_LESSTHAN) {
-        if (result < pSimpleExp2->interpret())
+        if (result < pSimpleExp2->interpret()){
             result = 1;
+        }
+        else 
+            result = 0;
     }
     else if (operand == TOK_GREATERTHAN) {
         if (result > pSimpleExp2->interpret())
             result = 1;
+        else 
+            result = 0;
     }
     else if (operand == TOK_NOTEQUALTO) {
         if (result != pSimpleExp2->interpret())
             result = 1;
+        else 
+            result = 0;
     }
     return result;
 }
@@ -343,9 +355,10 @@ int simpleExpressionNode::interpret() {
     int length = restTermOps.size();
     // cout<<length;
     for (int i = 0; i < length; ++i) {
-        if (restTermOps[i] == TOK_PLUS) result = i;
-        if (restTermOps[i] == TOK_MINUS) result -= restTerms[i]->interpret();
-        if (restTermOps[i] == TOK_OR) result = result || restTerms[i]->interpret();
+        int opCode = restTermOps[i];
+        if (opCode == TOK_PLUS) result += restTerms[i]->interpret();
+        else if (opCode == TOK_MINUS) result -= restTerms[i]->interpret();
+        else if (opCode == TOK_OR) result = result || restTerms[i]->interpret();
     }
     return result;
 }
@@ -389,10 +402,12 @@ int termNode::interpret() {
     int result = 0;
     result = pFactor->interpret();
     int length = restFactorOps.size();
+    // cout<<length;
     for (int i = 0; i < length; ++i) {
-        if (restFactorOps[i] == TOK_MULTIPLY) result *= restFactors[i]->interpret();
-        if (restFactorOps[i] == TOK_DIVIDE) result /= restFactors[i]->interpret();
-        if (restFactorOps[i] == TOK_AND) result = result && restFactors[i+1]->interpret();
+        int opCode = restFactorOps[i];
+        if (opCode == TOK_MULTIPLY) result *= restFactors[i]->interpret();
+        else if (opCode == TOK_DIVIDE) result /= restFactors[i]->interpret();
+        else if (opCode == TOK_AND) result = result && restFactors[i]->interpret();
     }
     return result;
 }
@@ -464,7 +479,9 @@ identNode::identNode(string name) {
 }
 
 int identNode::interpret(){
+    // cout<<"name"<< symbolTable.at(*id)<<endl;
     return symbolTable.at(*id); // lookup current value of identifier in symbol table and return it
+
 }
 
 identNode::~identNode(){
