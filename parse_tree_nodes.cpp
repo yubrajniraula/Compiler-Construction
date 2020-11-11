@@ -1,8 +1,9 @@
 /******************************************************************* 
 Name: Yubraj Niraula            NetID: yn79
-Course: CSE 4713                Assignment: Part 3
+Course: CSE 4713                Assignment: Part 4
 Programming Environment: MacOS Visual Studio Code C++
-Purpose of File: Creates a parse tree from the pointers received form productions.h
+Purpose of File: Creates a parse tree from the pointers received form productions.h 
+    and interprets the program 
 *******************************************************************/
 
 #include "parse_tree_nodes.h"
@@ -89,10 +90,10 @@ compoundNode::compoundNode(statementNode *stat) {
 int compoundNode::interpret() {
     mystate->interpret();
     int length = restStatements.size();
-	for (int i = 0; i < length; i++) {
+	for (int i = 0; i < length; ++i) {
         restStatements[i]->interpret();
     }
-    return 8;
+    return 0;
 }
 
 compoundNode::~compoundNode() {
@@ -466,7 +467,7 @@ identNode::identNode(string name) {
 }
 
 int identNode::interpret(){
-    return symbolTable.at(*id); // lookup current value of identifier in symbol table and return it
+    return symbolTable[*id]; // lookup current value of identifier in symbol table and return it
 }
 
 identNode::~identNode(){
@@ -505,7 +506,8 @@ nestedFactorNode::nestedFactorNode(int op, factorNode* fa) {
 }
 
 int nestedFactorNode::interpret(){
-    return pFac->interpret(); 
+    if (op = TOK_NOT) return !pFac->interpret(); 
+    else if (op = TOK_MINUS) return -1 * pFac->interpret();
 }
 
 nestedFactorNode::~nestedFactorNode() {

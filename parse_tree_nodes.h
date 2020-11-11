@@ -1,8 +1,8 @@
 /******************************************************************* 
 Name: Yubraj Niraula            NetID: yn79
-Course: CSE 4713                Assignment: Part 3
+Course: CSE 4713                Assignment: Part 4
 Programming Environment: MacOS Visual Studio Code C++
-Purpose of File: Header file to parse_tree_cpp
+Purpose of File: Header file for parse_tree_cpp
 *******************************************************************/
 
 #ifndef PARSE_TREE_NODES_H

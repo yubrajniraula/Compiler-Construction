@@ -1,6 +1,9 @@
-//*****************************************************************************
-// purpose: driver for Project Part 2 (parser for TIPS)
-//*****************************************************************************
+/******************************************************************* 
+Name: Yubraj Niraula            NetID: yn79
+Course: CSE 4713                Assignment: Part 4
+Programming Environment: MacOS Visual Studio Code C++
+Purpose of File: Driver file for the whole program
+*******************************************************************/
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
 #endif
@@ -97,7 +100,7 @@ int main(int argc, char* argv[]) {
     cout << *root << endl;
 
     cout << endl << endl << "*** Interpreting the TIPS program ***" << endl;
-    cout << root->interpret() << endl;
+    root->interpret();
 
     cout << endl<< endl<<"*** Delete the parse tree ***" << endl;
     delete root;

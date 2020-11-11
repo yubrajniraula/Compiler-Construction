@@ -16,7 +16,7 @@
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
-            "osx": {"MIMode": "lldb"},
+            // "osx": {"MIMode": "lldb"},
             "preLaunchTask": "build",
             "setupCommands": [
                 {

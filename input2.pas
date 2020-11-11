@@ -1,17 +1,17 @@
 PROGRAM CONVERT1;
 VAR
-  F: REAL;
-  C: REAL;
+  F: INTEGER;
+  C: INTEGER;
 BEGIN
   READ (F) ;
-  IF F < -100 THEN
+  IF F < 100 THEN
     BEGIN
   	  WRITE('TEMP IS TOO LOW!');
 	    WRITE('IS IT REALLY THAT COLD?')
     END
   ELSE
     BEGIN
-      C := (F-32.0)*(5.0/9.0);
+      C := (F-32)*(5/9);
       WRITE (' FAHRENHEIT = ');
       WRITE (F);
       WRITE (' CELSIUS= ');

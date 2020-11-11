@@ -1,0 +1,827 @@
+enter <program>
+-->found PROGRAM
+-->found CHECK1
+-->found ;
+    enter <block>
+    -->found VAR
+    -->found A
+    -->found :
+    -->found INTEGER
+    -->found ;
+
+    -->found B
+    -->found :
+    -->found INTEGER
+    -->found ;
+
+    -->found C
+    -->found :
+    -->found INTEGER
+    -->found ;
+
+    -->found D
+    -->found :
+    -->found INTEGER
+    -->found ;
+
+        enter <compound_statement>
+        -->found BEGIN
+            enter <statement>
+                enter <write>
+                -->found WRITE
+                -->found (
+                -->found 'THE FIRST PART OF THE PROGRAM PERFORMS SWAPPING OF VARIABLES A AND B'
+                -->found )
+                exit <write>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <write>
+                -->found WRITE
+                -->found (
+                -->found 'PLEASE ENTER THE FIRST NUMBER FOR A(4)'
+                -->found )
+                exit <write>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <read>
+                -->found READ
+                -->found (
+                -->found A
+                -->found )
+                exit <read>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <write>
+                -->found WRITE
+                -->found (
+                -->found 'PLEASE ENTER THE SECOND NUMBER FOR B(6)'
+                -->found )
+                exit <write>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <read>
+                -->found READ
+                -->found (
+                -->found B
+                -->found )
+                exit <read>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <assignment>
+                -->found C
+                -->found :=
+                    enter <expression>
+                        enter <simple expression>
+                            enter <term>
+                                enter <factor>
+                                -->found A
+                                exit <factor>
+                            exit <term>
+                        exit <simple expression>
+                    exit <expression>
+                exit <assignment>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <assignment>
+                -->found A
+                -->found :=
+                    enter <expression>
+                        enter <simple expression>
+                            enter <term>
+                                enter <factor>
+                                -->found B
+                                exit <factor>
+                            exit <term>
+                        exit <simple expression>
+                    exit <expression>
+                exit <assignment>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <assignment>
+                -->found B
+                -->found :=
+                    enter <expression>
+                        enter <simple expression>
+                            enter <term>
+                                enter <factor>
+                                -->found C
+                                exit <factor>
+                            exit <term>
+                        exit <simple expression>
+                    exit <expression>
+                exit <assignment>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <assignment>
+                -->found D
+                -->found :=
+                    enter <expression>
+                        enter <simple expression>
+                            enter <term>
+                                enter <factor>
+                                -->found 100
+                                exit <factor>
+                            exit <term>
+                        exit <simple expression>
+                    exit <expression>
+                exit <assignment>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <write>
+                -->found WRITE
+                -->found (
+                -->found 'THE VALUE IS SWAPPED: A IS '
+                -->found )
+                exit <write>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <write>
+                -->found WRITE
+                -->found (
+                -->found A
+                -->found )
+                exit <write>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <write>
+                -->found WRITE
+                -->found (
+                -->found 'B IS'
+                -->found )
+                exit <write>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <write>
+                -->found WRITE
+                -->found (
+                -->found B
+                -->found )
+                exit <write>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <write>
+                -->found WRITE
+                -->found (
+                -->found '
+  
+  THE SECOND PART OF THE PROGRAM PERFORMS OPERATIONS +, -, * AND /'
+                -->found )
+                exit <write>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <write>
+                -->found WRITE
+                -->found (
+                -->found 'ENTER THE BASE INTEGER'
+                -->found )
+                exit <write>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <assignment>
+                -->found C
+                -->found :=
+                    enter <expression>
+                        enter <simple expression>
+                            enter <term>
+                                enter <factor>
+                                -->found (
+                                    enter <expression>
+                                        enter <simple expression>
+                                            enter <term>
+                                                enter <factor>
+                                                -->found (
+                                                    enter <expression>
+                                                        enter <simple expression>
+                                                            enter <term>
+                                                                enter <factor>
+                                                                -->found A
+                                                                exit <factor>
+                                                            -->found *
+                                                                enter <factor>
+                                                                -->found B
+                                                                exit <factor>
+                                                            exit <term>
+                                                        exit <simple expression>
+                                                    exit <expression>
+                                                -->found )
+                                                exit <factor>
+                                            exit <term>
+                                        -->found +
+                                            enter <term>
+                                                enter <factor>
+                                                -->found (
+                                                    enter <expression>
+                                                        enter <simple expression>
+                                                            enter <term>
+                                                                enter <factor>
+                                                                -->found B
+                                                                exit <factor>
+                                                            exit <term>
+                                                        -->found -
+                                                            enter <term>
+                                                                enter <factor>
+                                                                -->found A
+                                                                exit <factor>
+                                                            exit <term>
+                                                        exit <simple expression>
+                                                    exit <expression>
+                                                -->found )
+                                                exit <factor>
+                                            exit <term>
+                                        exit <simple expression>
+                                    exit <expression>
+                                -->found )
+                                exit <factor>
+                            -->found /
+                                enter <factor>
+                                -->found D
+                                exit <factor>
+                            exit <term>
+                        exit <simple expression>
+                    exit <expression>
+                exit <assignment>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <write>
+                -->found WRITE
+                -->found (
+                -->found 'THE RESULT IS '
+                -->found )
+                exit <write>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <write>
+                -->found WRITE
+                -->found (
+                -->found C
+                -->found )
+                exit <write>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <write>
+                -->found WRITE
+                -->found (
+                -->found '
+  THE THIRD PART PERFORMS THE < OR > OPERATIONS'
+                -->found )
+                exit <write>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <if statement>
+                -->found IF
+                    enter <expression>
+                        enter <simple expression>
+                            enter <term>
+                                enter <factor>
+                                -->found A
+                                exit <factor>
+                            exit <term>
+                        exit <simple expression>
+                    -->found <
+                        enter <simple expression>
+                            enter <term>
+                                enter <factor>
+                                -->found B
+                                exit <factor>
+                            exit <term>
+                        exit <simple expression>
+                    exit <expression>
+                -->found THEN
+                    enter <statement>
+                        enter <compound_statement>
+                        -->found BEGIN
+                            enter <statement>
+                                enter <write>
+                                -->found WRITE
+                                -->found (
+                                -->found A
+                                -->found )
+                                exit <write>
+                            exit <statement>
+                        -->found ;
+                            enter <statement>
+                                enter <write>
+                                -->found WRITE
+                                -->found (
+                                -->found ' IS SMALLER'
+                                -->found )
+                                exit <write>
+                            exit <statement>
+                        -->found END
+                        exit <compound_statement>
+                    exit <statement>
+                -->found ELSE
+                    enter <statement>
+                        enter <compound_statement>
+                        -->found BEGIN
+                            enter <statement>
+                                enter <write>
+                                -->found WRITE
+                                -->found (
+                                -->found A
+                                -->found )
+                                exit <write>
+                            exit <statement>
+                        -->found ;
+                            enter <statement>
+                                enter <write>
+                                -->found WRITE
+                                -->found (
+                                -->found ' IS GREATER'
+                                -->found )
+                                exit <write>
+                            exit <statement>
+                        -->found END
+                        exit <compound_statement>
+                    exit <statement>
+                exit <if statement>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <if statement>
+                -->found IF
+                    enter <expression>
+                        enter <simple expression>
+                            enter <term>
+                                enter <factor>
+                                -->found B
+                                exit <factor>
+                            exit <term>
+                        exit <simple expression>
+                    -->found <
+                        enter <simple expression>
+                            enter <term>
+                                enter <factor>
+                                -->found A
+                                exit <factor>
+                            exit <term>
+                        exit <simple expression>
+                    exit <expression>
+                -->found THEN
+                    enter <statement>
+                        enter <compound_statement>
+                        -->found BEGIN
+                            enter <statement>
+                                enter <write>
+                                -->found WRITE
+                                -->found (
+                                -->found B
+                                -->found )
+                                exit <write>
+                            exit <statement>
+                        -->found ;
+                            enter <statement>
+                                enter <write>
+                                -->found WRITE
+                                -->found (
+                                -->found ' IS SMALLER'
+                                -->found )
+                                exit <write>
+                            exit <statement>
+                        -->found END
+                        exit <compound_statement>
+                    exit <statement>
+                exit <if statement>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <write>
+                -->found WRITE
+                -->found (
+                -->found '
+    
+    THE FOURTH AND LAST PROGRAM PERFORMS WHILE LOOP CHECKING '
+                -->found )
+                exit <write>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <write>
+                -->found WRITE
+                -->found (
+                -->found 'ENTER VALUE 1'
+                -->found )
+                exit <write>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <read>
+                -->found READ
+                -->found (
+                -->found A
+                -->found )
+                exit <read>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <write>
+                -->found WRITE
+                -->found (
+                -->found 'ENTER VALUE 100'
+                -->found )
+                exit <write>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <read>
+                -->found READ
+                -->found (
+                -->found B
+                -->found )
+                exit <read>
+            exit <statement>
+        -->found ;
+            enter <statement>
+                enter <while statement>
+                -->found WHILE
+                    enter <expression>
+                        enter <simple expression>
+                            enter <term>
+                                enter <factor>
+                                -->found A
+                                exit <factor>
+                            exit <term>
+                        exit <simple expression>
+                    -->found <
+                        enter <simple expression>
+                            enter <term>
+                                enter <factor>
+                                -->found B
+                                exit <factor>
+                            exit <term>
+                        exit <simple expression>
+                    exit <expression>
+                    enter <statement>
+                        enter <compound_statement>
+                        -->found BEGIN
+                            enter <statement>
+                                enter <write>
+                                -->found WRITE
+                                -->found (
+                                -->found A
+                                -->found )
+                                exit <write>
+                            exit <statement>
+                        -->found ;
+                            enter <statement>
+                                enter <assignment>
+                                -->found A
+                                -->found :=
+                                    enter <expression>
+                                        enter <simple expression>
+                                            enter <term>
+                                                enter <factor>
+                                                -->found A
+                                                exit <factor>
+                                            exit <term>
+                                        -->found +
+                                            enter <term>
+                                                enter <factor>
+                                                -->found 1
+                                                exit <factor>
+                                            exit <term>
+                                        exit <simple expression>
+                                    exit <expression>
+                                exit <assignment>
+                            exit <statement>
+                        -->found END
+                        exit <compound_statement>
+                    exit <statement>
+                exit <while statement>
+            exit <statement>
+        -->found END
+        exit <compound_statement>
+    exit <block>
+exit <program>
+
+=== GO BULLDOGS! Your parse was successful! ===
+
+User Defined Symbols:
+A
+B
+C
+D
+
+
+*** In order traversal of parse tree ***
+Program Name: CHECK1
+Begin Compound Statement
+Write String 'THE FIRST PART OF THE PROGRAM PERFORMS SWAPPING OF VARIABLES A AND B'
+Write String 'PLEASE ENTER THE FIRST NUMBER FOR A(4)'
+Read Value A
+Write String 'PLEASE ENTER THE SECOND NUMBER FOR B(6)'
+Read Value B
+Assignment C := expression( simple_expression( term( factor( A ) ) ) )
+Assignment A := expression( simple_expression( term( factor( B ) ) ) )
+Assignment B := expression( simple_expression( term( factor( C ) ) ) )
+Assignment D := expression( simple_expression( term( factor( 100 ) ) ) )
+Write String 'THE VALUE IS SWAPPED: A IS '
+Write Value A
+Write String 'B IS'
+Write Value B
+Write String '
+  
+  THE SECOND PART OF THE PROGRAM PERFORMS OPERATIONS +, -, * AND /'
+Write String 'ENTER THE BASE INTEGER'
+Assignment C := expression( simple_expression( term( nested_expression( expression( simple_expression( term( nested_expression( expression( simple_expression( term( factor( A ) * factor( B ) ) ) ) ) ) + term( nested_expression( expression( simple_expression( term( factor( B ) ) - term( factor( A ) ) ) ) ) ) ) ) ) / factor( D ) ) ) )
+Write String 'THE RESULT IS '
+Write Value C
+Write String '
+  THE THIRD PART PERFORMS THE < OR > OPERATIONS'
+If expression( simple_expression( term( factor( A ) ) ) < simple_expression( term( factor( B ) ) ) )
+%%%%%%%% True Statement %%%%%%%%
+Begin Compound Statement
+Write Value A
+Write String ' IS SMALLER'
+End Compound Statement
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% False Statement %%%%%%%%
+Begin Compound Statement
+Write Value A
+Write String ' IS GREATER'
+End Compound Statement
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+If expression( simple_expression( term( factor( B ) ) ) < simple_expression( term( factor( A ) ) ) )
+%%%%%%%% True Statement %%%%%%%%
+Begin Compound Statement
+Write Value B
+Write String ' IS SMALLER'
+End Compound Statement
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Write String '
+    
+    THE FOURTH AND LAST PROGRAM PERFORMS WHILE LOOP CHECKING '
+Write String 'ENTER VALUE 1'
+Read Value A
+Write String 'ENTER VALUE 100'
+Read Value B
+While expression( simple_expression( term( factor( A ) ) ) < simple_expression( term( factor( B ) ) ) )
+%%%%%%%% Loop Body %%%%%%%%
+Begin Compound Statement
+Write Value A
+Assignment A := expression( simple_expression( term( factor( A ) ) + term( factor( 1 ) ) ) )
+End Compound Statement
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+End Compound Statement
+
+
+
+
+*** Interpreting the TIPS program ***
+THE FIRST PART OF THE PROGRAM PERFORMS SWAPPING OF VARIABLES A AND B
+PLEASE ENTER THE FIRST NUMBER FOR A(4)
+4
+PLEASE ENTER THE SECOND NUMBER FOR B(6)
+6
+THE VALUE IS SWAPPED: A IS 
+6
+B IS
+4
+
+  
+  THE SECOND PART OF THE PROGRAM PERFORMS OPERATIONS +, -, * AND /
+ENTER THE BASE INTEGER
+THE RESULT IS 
+0
+
+  THE THIRD PART PERFORMS THE < OR > OPERATIONS
+6
+ IS GREATER
+4
+ IS SMALLER
+
+    
+    THE FOURTH AND LAST PROGRAM PERFORMS WHILE LOOP CHECKING 
+ENTER VALUE 1
+1
+ENTER VALUE 100
+100
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+
+
+*** Delete the parse tree ***
+Deleting a programNode
+Deleting a blockNode
+Deleting a compoundNode
+Deleting a writeNode
+Deleting a writeNode
+Deleting a readNode
+Deleting a writeNode
+Deleting a readNode
+Deleting an assignmentNode
+Deleting an expressionNode
+Deleting a simpleExpressionNode
+Deleting a termNode
+Deleting a factorNode
+Deleting an assignmentNode
+Deleting an expressionNode
+Deleting a simpleExpressionNode
+Deleting a termNode
+Deleting a factorNode
+Deleting an assignmentNode
+Deleting an expressionNode
+Deleting a simpleExpressionNode
+Deleting a termNode
+Deleting a factorNode
+Deleting an assignmentNode
+Deleting an expressionNode
+Deleting a simpleExpressionNode
+Deleting a termNode
+Deleting a factorNode
+Deleting a writeNode
+Deleting a writeNode
+Deleting a writeNode
+Deleting a writeNode
+Deleting a writeNode
+Deleting a writeNode
+Deleting an assignmentNode
+Deleting an expressionNode
+Deleting a simpleExpressionNode
+Deleting a termNode
+Deleting a factorNode
+Deleting an expressionNode
+Deleting a simpleExpressionNode
+Deleting a termNode
+Deleting a factorNode
+Deleting an expressionNode
+Deleting a simpleExpressionNode
+Deleting a termNode
+Deleting a factorNode
+Deleting a factorNode
+Deleting a termNode
+Deleting a factorNode
+Deleting an expressionNode
+Deleting a simpleExpressionNode
+Deleting a termNode
+Deleting a factorNode
+Deleting a termNode
+Deleting a factorNode
+Deleting a factorNode
+Deleting a writeNode
+Deleting a writeNode
+Deleting a writeNode
+Deleting an ifNode
+Deleting an expressionNode
+Deleting a simpleExpressionNode
+Deleting a termNode
+Deleting a factorNode
+Deleting a simpleExpressionNode
+Deleting a termNode
+Deleting a factorNode
+Deleting a compoundNode
+Deleting a writeNode
+Deleting a writeNode
+Deleting a compoundNode
+Deleting a writeNode
+Deleting a writeNode
+Deleting an ifNode
+Deleting an expressionNode
+Deleting a simpleExpressionNode
+Deleting a termNode
+Deleting a factorNode
+Deleting a simpleExpressionNode
+Deleting a termNode
+Deleting a factorNode
+Deleting a compoundNode
+Deleting a writeNode
+Deleting a writeNode
+Deleting a writeNode
+Deleting a writeNode
+Deleting a readNode
+Deleting a writeNode
+Deleting a readNode
+Deleting a whileNode
+Deleting an expressionNode
+Deleting a simpleExpressionNode
+Deleting a termNode
+Deleting a factorNode
+Deleting a simpleExpressionNode
+Deleting a termNode
+Deleting a factorNode
+Deleting a compoundNode
+Deleting a writeNode
+Deleting an assignmentNode
+Deleting an expressionNode
+Deleting a simpleExpressionNode
+Deleting a termNode
+Deleting a factorNode
+Deleting a termNode
+Deleting a factorNode
