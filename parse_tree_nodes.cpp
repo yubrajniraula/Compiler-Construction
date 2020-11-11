@@ -89,12 +89,10 @@ compoundNode::compoundNode(statementNode *stat) {
 int compoundNode::interpret() {
     mystate->interpret();
     int length = restStatements.size();
-    //cout<< "****" << length;
-    //mystate->interpret();
 	for (int i = 0; i < length; i++) {
         restStatements[i]->interpret();
     }
-    return 0;
+    return 8;
 }
 
 compoundNode::~compoundNode() {
@@ -132,8 +130,7 @@ assignmentNode::assignmentNode(string name, expressionNode* expr) {
 }
 
 int assignmentNode::interpret() {
-    symbolTable[*name] = exprs->interpret();
-    return symbolTable[*name];
+    return symbolTable[*name] = exprs->interpret();
 }
 
 assignmentNode::~assignmentNode() {
@@ -200,7 +197,6 @@ whileNode::whileNode(expressionNode* expr, statementNode *loopB) {
 int whileNode::interpret() {
     while(expression->interpret()){
         loopBody->interpret();
-        //return 0;
     }
     return 0; 
 }
@@ -227,10 +223,8 @@ readNode::readNode(string name) {
 
 int readNode::interpret() {
     int input_num ;
-    // float realResult;
-   // scanf("%d", &input_num);
     cin >> input_num; // take the input value from user
-    symbolTable[*name] = input_num;// might also have to place this value in symbol table
+    symbolTable[*name] = input_num;// place this value in symbol table
     return input_num; 
 }
 
@@ -250,15 +244,16 @@ writeNode::writeNode(string name, int tokenNum) {
 }
 
 int writeNode::interpret() {
-    if (this->tokenNumber == TOK_IDENT){
+    if (this->tokenNumber == TOK_IDENT){     // if identifier, look at symbol table and return value
         cout<< symbolTable.at(*name)<<endl;
     }
-    else {
-        cout<< *name; 
+    else {    // if string, output it to console
+        string consoleOut = *name;
+        consoleOut.erase(consoleOut.begin()); // remove the beginning ' from string
+        consoleOut.pop_back(); // remove the ending ' from string
+        cout<< consoleOut <<endl; 
     }
     return 0;
-    // if identifier, look at symbol table and return value
-    // if string, output it to console
 }
 
 writeNode::~writeNode() {
@@ -283,17 +278,12 @@ expressionNode::expressionNode(simpleExpressionNode *pSimp1, int opCode, simpleE
 }
 
 int expressionNode::interpret() {
-    //int length = rest.size();
     int result;
-    result =     pSimpleExp1->interpret();
-    // for (int i = 0; i < length; ++i) {
-    //     if (restFactorOps[i] == TOK_MULTIPLY) result = restFactors[i]->interpret() * restFactors[i+1]->interpret();
-    //     if (restFactorOps[i] == TOK_DIVIDE) result = restFactors[i]->interpret() / restFactors[i+1]->interpret();
-    //     if (restFactorOps[i] == TOK_AND) result = restFactors[i]->interpret() && restFactors[i+1]->interpret();
-    // }
+    result = pSimpleExp1->interpret();
+    
     if (operand == TOK_EQUALTO) {
         if (result == pSimpleExp2->interpret())
-            result = 1; // if not equal, go outside the condition and return the default result = 0
+            result = 1; // if equal set result to 1 as the expression is true
         else 
             result = 0;
     }
@@ -353,7 +343,6 @@ int simpleExpressionNode::interpret() {
     int result = 0;
     result = pTerm->interpret();
     int length = restTermOps.size();
-    // cout<<length;
     for (int i = 0; i < length; ++i) {
         int opCode = restTermOps[i];
         if (opCode == TOK_PLUS) result += restTerms[i]->interpret();
@@ -365,7 +354,6 @@ int simpleExpressionNode::interpret() {
 
 simpleExpressionNode::~simpleExpressionNode(){
     cout<<"Deleting a simpleExpressionNode"<< endl;
-    // cout<<restTermOps.size();
     delete pTerm;
     pTerm = nullptr;
 
@@ -402,7 +390,6 @@ int termNode::interpret() {
     int result = 0;
     result = pFactor->interpret();
     int length = restFactorOps.size();
-    // cout<<length;
     for (int i = 0; i < length; ++i) {
         int opCode = restFactorOps[i];
         if (opCode == TOK_MULTIPLY) result *= restFactors[i]->interpret();
@@ -479,9 +466,7 @@ identNode::identNode(string name) {
 }
 
 int identNode::interpret(){
-    // cout<<"name"<< symbolTable.at(*id)<<endl;
     return symbolTable.at(*id); // lookup current value of identifier in symbol table and return it
-
 }
 
 identNode::~identNode(){
@@ -499,7 +484,7 @@ nestedExprNode::nestedExprNode(expressionNode* ex) {
 }
 
 int nestedExprNode::interpret(){
-    return pExpr->interpret(); // should be correct i guess
+    return pExpr->interpret(); 
 }
 
 nestedExprNode::~nestedExprNode(){
@@ -520,7 +505,7 @@ nestedFactorNode::nestedFactorNode(int op, factorNode* fa) {
 }
 
 int nestedFactorNode::interpret(){
-    return pFac->interpret(); // lookup current value of identifier in symbol table and return it
+    return pFac->interpret(); 
 }
 
 nestedFactorNode::~nestedFactorNode() {
